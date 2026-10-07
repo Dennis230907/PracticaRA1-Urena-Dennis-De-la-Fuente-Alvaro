@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="Productos">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="producto" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="producto">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="marca" type="xs:string"/>
+                <xs:element name="modelo" type="xs:string"/>
+                <xs:element name="categoria" type="xs:string"/>
+                <xs:element name="anioLanzamiento" type="xs:int"/>
+                <xs:element name="garantiaMeses" type="xs:int"/>
+                <xs:element ref="proveedor"/>
+                <xs:element name="tipoConexion" type="xs:string"/>
+                <xs:element name="precio" type="xs:decimal"/>
+                <xs:element name="descuento" type="xs:decimal"/>
+                <xs:element ref="costes"/>
+            </xs:sequence>
+            <xs:attribute name="codigo" type="xs:string" use="required"/>
+            <xs:attribute name="numeroSerie" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="proveedor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="empresa" type="xs:string"/>
+                <xs:element name="ciudad" type="xs:string"/>
+                <xs:element name="pais" type="xs:string"/>
+                <xs:element name="codigoPostal" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="costes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="costesEnvio" type="xs:decimal"/>
+                <xs:element name="costesAlmacenaje" type="xs:decimal"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

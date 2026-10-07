@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonarLintProjectSettings">
+    <option name="bindingSuggestionsEnabled" value="false" />
+    <option name="fileExclusions">
+      <list>
+        <option value="DIRECTORY:target" />
+      </list>
+    </option>
+    <option name="moduleMapping">
+      <map>
+        <entry key="ad-ec-ra1-practica-apellidos-nombre" value="ad-ut1-practica" />
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Productos>
+    <producto codigo="PRD1001" numeroSerie="SN-LOGI-88401">
+        <marca>Logitech</marca>
+        <modelo>MX Master 3S</modelo>
+        <categoria>Periféricos</categoria>
+        <anioLanzamiento>2022</anioLanzamiento>
+        <garantiaMeses>24</garantiaMeses>
+        <proveedor>
+            <empresa>TechDist Spain S.L.</empresa>
+            <ciudad>Madrid</ciudad>
+            <pais>España</pais>
+            <codigoPostal>28001</codigoPostal>
+        </proveedor>
+        <tipoConexion>Inalámbrico</tipoConexion>
+        <precio>129.99</precio>
+        <descuento>15.50</descuento>
+        <costes>
+            <costesEnvio>6.50</costesEnvio>
+            <costesAlmacenaje>4.20</costesAlmacenaje>
+        </costes>
+    </producto>
+
+    <producto codigo="PRD1002" numeroSerie="SN-DELL-99214">
+        <marca>Dell</marca>
+        <modelo>UltraSharp U2723QE</modelo>
+        <categoria>Monitores</categoria>
+        <anioLanzamiento>2023</anioLanzamiento>
+        <garantiaMeses>36</garantiaMeses>
+        <proveedor>
+            <empresa>Iberia Hardware Hub</empresa>
+            <ciudad>Barcelona</ciudad>
+            <pais>España</pais>
+            <codigoPostal>08001</codigoPostal>
+        </proveedor>
+        <tipoConexion>USB-C/DisplayPort</tipoConexion>
+        <precio>649.00</precio>
+        <descuento>8.00</descuento>
+        <costes>
+            <costesEnvio>18.40</costesEnvio>
+            <costesAlmacenaje>12.80</costesAlmacenaje>
+        </costes>
+    </producto>
+
+    <producto codigo="PRD1003" numeroSerie="SN-SAMS-11029">
+        <marca>Samsung</marca>
+        <modelo>990 PRO 2TB</modelo>
+        <categoria>Almacenamiento</categoria>
+        <anioLanzamiento>2023</anioLanzamiento>
+        <garantiaMeses>60</garantiaMeses>
+        <proveedor>
+            <empresa>Silicon Global Logistics</empresa>
+            <ciudad>Valencia</ciudad>
+            <pais>España</pais>
+            <codigoPostal>46001</codigoPostal>
+        </proveedor>
+        <tipoConexion>NVMe PCIe 4.0</tipoConexion>
+        <precio>189.50</precio>
+        <descuento>12.25</descuento>
+        <costes>
+            <costesEnvio>4.95</costesEnvio>
+            <costesAlmacenaje>2.10</costesAlmacenaje>
+        </costes>
+    </producto>
+
+    <producto codigo="PRD1004" numeroSerie="SN-ASUS-44320">
+        <marca>Asus</marca>
+        <modelo>ROG Strix B650E-F</modelo>
+        <categoria>Componentes</categoria>
+        <anioLanzamiento>2022</anioLanzamiento>
+        <garantiaMeses>36</garantiaMeses>
+        <proveedor>
+            <empresa>TechDist Spain S.L.</empresa>
+            <ciudad>Madrid</ciudad>
+            <pais>España</pais>
+            <codigoPostal>28001</codigoPostal>
+        </proveedor>
+        <tipoConexion>AM5 / ATX</tipoConexion>
+        <precio>299.90</precio>
+        <descuento>5.00</descuento>
+        <costes>
+            <costesEnvio>9.15</costesEnvio>
+            <costesAlmacenaje>6.70</costesAlmacenaje>
+        </costes>
+    </producto>
+
+    <producto codigo="PRD1005" numeroSerie="SN-CORS-77891">
+        <marca>Corsair</marca>
+        <modelo>RM850x Shift</modelo>
+        <categoria>Fuentes de Alimentación</categoria>
+        <anioLanzamiento>2023</anioLanzamiento>
+        <garantiaMeses>120</garantiaMeses>
+        <proveedor>
+            <empresa>Iberia Hardware Hub</empresa>
+            <ciudad>Barcelona</ciudad>
+            <pais>España</pais>
+            <codigoPostal>08001</codigoPostal>
+        </proveedor>
+        <tipoConexion>Modular ATX 3.0</tipoConexion>
+        <precio>159.90</precio>
+        <descuento>10.00</descuento>
+        <costes>
+            <costesEnvio>8.20</costesEnvio>
+            <costesAlmacenaje>5.30</costesAlmacenaje>
+        </costes>
+    </producto>
+</Productos>
