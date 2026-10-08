@@ -14,9 +14,9 @@ public interface ProductoDAO {
 
     /**
      *Guarda el contenido del nuevo fichero en la ruta específica
-     * @param rutaDestino
+     * @param PATH_TXT
      * @param contenidoTXT
      * @return
      */
-    boolean guardarFicheroTXT(String rutaDestino, String contenidoTXT);
+    boolean guardarFicheroTXT(String PATH_TXT, String contenidoTXT);
 }

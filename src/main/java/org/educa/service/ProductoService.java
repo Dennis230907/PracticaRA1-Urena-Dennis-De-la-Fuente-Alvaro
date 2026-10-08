@@ -6,6 +6,8 @@ import jakarta.xml.bind.JAXBException;
 import org.educa.dao.ProductoDAOImpl;
 import org.educa.entity.ProductoEntity;
 import org.educa.dao.ProductoDAO;
+
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -62,7 +64,18 @@ public class ProductoService {
     }
 
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
-        //TODO: Implementar
+            List<ProductoEntity> listaProductos = readFile(fileXml);
+            File xmlFile = new File(fileXml);
+            String rutaAbsoluta = xmlFile.getAbsolutePath();
+            long fileSize = xmlFile.length();
+            String nombreXMLsinExtension = "inventario_junio2026";
+            String fecha = "junio2026";
+
+            String rutaDestinoCompleta = path + "result_junio2026.txt";
+
+
+
+
 
     }
 

@@ -38,13 +38,13 @@ public class ProductoDAOImpl implements ProductoDAO {
 
     /**
      * Creamos un boolean para la creación del fichero del segundo ejercicio.
-     * @param rutaDestino
+     * @param PATH_TXT
      * @param contenidoTXT
      * @return
      */
     @Override
-    public boolean guardarFicheroTXT(String rutaDestino, String contenidoTXT) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaDestino))) {
+    public boolean guardarFicheroTXT(String PATH_TXT, String contenidoTXT) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TXT))) {
             writer.write(contenidoTXT);
             return true;
         } catch (IOException e) {
