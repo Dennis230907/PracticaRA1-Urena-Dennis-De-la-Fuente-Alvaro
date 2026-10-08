@@ -7,7 +7,10 @@ import generated.Productos;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Creamos la clase ProductoDAOImpl que implementa la interfaz ProductoDAO
@@ -30,6 +33,23 @@ public class ProductoDAOImpl implements ProductoDAO {
             e.printStackTrace();
             return null;
 
+        }
+    }
+
+    /**
+     * Creamos un boolean para la creación del fichero del segundo ejercicio.
+     * @param rutaDestino
+     * @param contenidoTXT
+     * @return
+     */
+    @Override
+    public boolean guardarFicheroTXT(String rutaDestino, String contenidoTXT) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaDestino))) {
+            writer.write(contenidoTXT);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
