@@ -3,6 +3,7 @@ package org.educa.service;
 import generated.Producto;
 import generated.Productos;
 import jakarta.xml.bind.JAXBException;
+import org.educa.dao.ProductoDAOImpl;
 import org.educa.entity.ProductoEntity;
 import org.educa.dao.ProductoDAO;
 import java.io.IOException;
@@ -26,37 +27,32 @@ public class ProductoService {
      * @throws JAXBException Si ocurre un error en el mapeo de los datos XML.
      */
     public List<ProductoEntity> readFile(String fileXml) throws JAXBException {
-            ProductoDAO dao = new ProductoDAO();
-            Productos datos = dao.leerXML(fileXml);
+
+
+            ProductoDAO dao = new ProductoDAOImpl();
+
+            Productos datos = dao.obtenerProductos(fileXml);
 
             List<ProductoEntity> listaProductos = new ArrayList<>();
 
             if (datos != null && datos.getProducto() != null) {
                 for (Producto p : datos.getProducto()) {
                     ProductoEntity entidad = new ProductoEntity();
-
-                    // 1. Metemos todo el objeto crudo de golpe (adiós a las 20 líneas en rojo)
                     entidad.setProducto(p);
 
-                    // 2. Cálculos financieros usando BigDecimal
-                    BigDecimal cien = new BigDecimal("100");
+                   double precio = p.getPrecio().doubleValue();
+                   double descuento= p.getDescuento().doubleValue();
+                   double almacenaje= p.getCostes().getCostesAlmacenaje().doubleValue();
+                   double envio= p.getCostes().getCostesEnvio().doubleValue();
 
-                    // descuentoAplicado = (precio * descuento) / 100
-                    BigDecimal descuentoAplicado = p.getPrecio().multiply(p.getDescuento()).divide(cien);
+                   double descuentoAplicado = (precio * descuento)/100;
+                   double precioFinalCalculado=precio-descuentoAplicado;
+                   double costeTotalCalculado=almacenaje+envio;
+                   double beneficioCalculado=precioFinalCalculado-costeTotalCalculado;
 
-                    // precioFinal = precio - descuentoAplicado
-                    BigDecimal precioFinal = p.getPrecio().subtract(descuentoAplicado);
-
-                    // costeTotal = almacenaje + envio
-                    BigDecimal costeTotal = p.getCostes().getCostesAlmacenaje().add(p.getCostes().getCostesEnvio());
-
-                    // beneficio = precioFinal - costeTotal
-                    BigDecimal beneficio = precioFinal.subtract(costeTotal);
-
-                    // 3. Guardamos los resultados
-                    entidad.setPrecioFinal(precioFinal);
-                    entidad.setCost(costeTotal);
-                    entidad.setProfit(beneficio);
+                   entidad.setPrecioFinal(BigDecimal.valueOf(precioFinalCalculado));
+                   entidad.setCost(BigDecimal.valueOf(costeTotalCalculado));
+                   entidad.setProfit(BigDecimal.valueOf(beneficioCalculado));
 
                     listaProductos.add(entidad);
                 }
