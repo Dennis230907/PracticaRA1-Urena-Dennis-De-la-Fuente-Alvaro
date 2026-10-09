@@ -6,10 +6,12 @@ import jakarta.xml.bind.JAXBException;
 import org.educa.dao.ProductoDAOImpl;
 import org.educa.entity.ProductoEntity;
 import org.educa.dao.ProductoDAO;
+import org.educa.entity.SummaryEntity;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +54,9 @@ public class ProductoService {
                    double costeTotalCalculado=almacenaje+envio;
                    double beneficioCalculado=precioFinalCalculado-costeTotalCalculado;
 
-                   entidad.setPrecioFinal(BigDecimal.valueOf(precioFinalCalculado));
-                   entidad.setCost(BigDecimal.valueOf(costeTotalCalculado));
-                   entidad.setProfit(BigDecimal.valueOf(beneficioCalculado));
+                   entidad.setPrecioFinal(BigDecimal.valueOf(precioFinalCalculado).setScale(2,RoundingMode.HALF_UP));
+                   entidad.setCost(BigDecimal.valueOf(costeTotalCalculado).setScale(2,RoundingMode.HALF_UP));
+                   entidad.setProfit(BigDecimal.valueOf(beneficioCalculado).setScale(2,RoundingMode.HALF_UP));
 
                     listaProductos.add(entidad);
                 }
@@ -63,20 +65,44 @@ public class ProductoService {
 
     }
 
+    /**
+     * Lee el fichero XML, procesa los productos para calcular
+     * el número total de productos y beneficio total y
+     * crea el fichero.txt en la ruta asignada con todos los datos solicitados.
+     *
+     * @param path
+     * @param fileXml
+     * @throws JAXBException
+     * @throws IOException
+     */
+
     public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
-            List<ProductoEntity> listaProductos = readFile(fileXml);
-            File xmlFile = new File(fileXml);
-            String rutaAbsoluta = xmlFile.getAbsolutePath();
-            long fileSize = xmlFile.length();
-            String nombreXMLsinExtension = "inventario_junio2026";
-            String fecha = "junio2026";
+        List<ProductoEntity> listaProductos = readFile(fileXml);
+        File xmlFile = new File(fileXml);
+        String rutaAbsoluta = xmlFile.getAbsolutePath();
+        long fileSize = xmlFile.length();
+        String fecha = "junio2026";
 
-            String rutaDestinoCompleta = path + "result_junio2026.txt";
+        int numeroProductos = listaProductos.size();
+        BigDecimal beneficioTotal = BigDecimal.valueOf(0);
 
+        for (ProductoEntity producto : listaProductos) {
+            if (producto.getProfit() != null) {
+                beneficioTotal = beneficioTotal.add(producto.getProfit());
+            }
+        }
 
+        SummaryEntity summary = new SummaryEntity();
+        summary.setName(fecha);
+        summary.setNumberOfProducts(numeroProductos);
+        summary.setTotalProfit(beneficioTotal);
+        summary.setFileAbsolutePath(rutaAbsoluta);
+        summary.setFileName("inventario_junio2026");
+        summary.setFileSize(fileSize);
 
-
-
+        String rutaDestinoCompleta = path + "result_junio2026.txt";
+        ProductoDAO dao = new ProductoDAOImpl();
+        dao.guardarFicheroTXT(rutaDestinoCompleta, summary.toPrint());
     }
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {

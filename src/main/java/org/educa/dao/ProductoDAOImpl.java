@@ -25,7 +25,6 @@ public class ProductoDAOImpl implements ProductoDAO {
     @Override
     public Productos obtenerProductos(String FILE_XML ) {
         try {
-            System.out.println("Intentando leer" + FILE_XML);
             JAXBContext context = JAXBContext.newInstance(Productos.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             return (Productos) unmarshaller.unmarshal(new File(FILE_XML ));
@@ -44,6 +43,10 @@ public class ProductoDAOImpl implements ProductoDAO {
      */
     @Override
     public boolean guardarFicheroTXT(String PATH_TXT, String contenidoTXT) {
+        File directorio = new File("src/main/resources/export/");
+        if (!directorio.exists()) {
+            directorio.mkdirs();
+        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TXT))) {
             writer.write(contenidoTXT);
             return true;
