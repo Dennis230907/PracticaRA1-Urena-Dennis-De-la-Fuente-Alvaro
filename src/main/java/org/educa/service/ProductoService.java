@@ -44,19 +44,18 @@ public class ProductoService {
                     ProductoEntity entidad = new ProductoEntity();
                     entidad.setProducto(p);
 
-                   double precio = p.getPrecio().doubleValue();
-                   double descuento= p.getDescuento().doubleValue();
-                   double almacenaje= p.getCostes().getCostesAlmacenaje().doubleValue();
-                   double envio= p.getCostes().getCostesEnvio().doubleValue();
+                    BigDecimal precio = p.getPrecio();
+                    BigDecimal descuento = p.getDescuento();
+                    BigDecimal almacenaje = p.getCostes().getCostesAlmacenaje();
+                    BigDecimal envio = p.getCostes().getCostesEnvio();
+                    BigDecimal descuentoAplicado = precio.multiply(descuento).divide(BigDecimal.valueOf(100));
+                    BigDecimal precioFinalCalculado = precio.subtract(descuentoAplicado);
+                    BigDecimal costeTotalCalculado = almacenaje.add(envio);
+                    BigDecimal beneficioCalculado = precioFinalCalculado.subtract(costeTotalCalculado);
 
-                   double descuentoAplicado = (precio * descuento)/100;
-                   double precioFinalCalculado=precio-descuentoAplicado;
-                   double costeTotalCalculado=almacenaje+envio;
-                   double beneficioCalculado=precioFinalCalculado-costeTotalCalculado;
-
-                   entidad.setPrecioFinal(BigDecimal.valueOf(precioFinalCalculado).setScale(2,RoundingMode.HALF_UP));
-                   entidad.setCost(BigDecimal.valueOf(costeTotalCalculado).setScale(2,RoundingMode.HALF_UP));
-                   entidad.setProfit(BigDecimal.valueOf(beneficioCalculado).setScale(2,RoundingMode.HALF_UP));
+                    entidad.setPrecioFinal(precioFinalCalculado.setScale(2,RoundingMode.HALF_UP));
+                    entidad.setCost(costeTotalCalculado.setScale(2,RoundingMode.HALF_UP));
+                    entidad.setProfit(beneficioCalculado.setScale(2,RoundingMode.HALF_UP));
 
                     listaProductos.add(entidad);
                 }

@@ -1,6 +1,0 @@
-Fecha: junio2026
-NumeroDeVehiculos: 5
-BeneficioTotal: 1223.72
-Ruta del Fichero: /home/alumnotd/IdeaProjects/PracticaRA1-Urena-Dennis-De-la-Fuente-Alvaro/src/main/resources/xml/inventario_junio2026.xml
-Nombre del Fichero: inventario_junio2026
-Tamaño del Fichero: 3797 bytes
