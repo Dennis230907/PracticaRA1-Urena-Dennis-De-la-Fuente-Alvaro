@@ -3,12 +3,15 @@ package org.educa.service;
 import generated.Producto;
 import generated.Productos;
 import jakarta.xml.bind.JAXBException;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.educa.dao.ProductoDAOImpl;
 import org.educa.entity.ProductoEntity;
 import org.educa.dao.ProductoDAO;
 import org.educa.entity.SummaryEntity;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -105,6 +108,67 @@ public class ProductoService {
     }
 
     public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
-        //TODO: Implementar
+        List<ProductoEntity> listaProductos = readFile(fileXml);
+        org.apache.poi.ss.usermodel.Workbook workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook();
+        org.apache.poi.ss.usermodel.Sheet hoja = workbook.createSheet("Inventario");
+
+        org.apache.poi.ss.usermodel.Font fontHeader = workbook.createFont();
+        fontHeader.setBold(true);
+
+        org.apache.poi.ss.usermodel.CellStyle styleHeader = workbook.createCellStyle();
+        styleHeader.setFont(fontHeader);
+        styleHeader.setAlignment(org.apache.poi.ss.usermodel.HorizontalAlignment.CENTER);
+        styleHeader.setVerticalAlignment(org.apache.poi.ss.usermodel.VerticalAlignment.CENTER);
+
+        org.apache.poi.ss.usermodel.CellStyle styleRowPar = workbook.createCellStyle();
+        styleRowPar.setFillForegroundColor(org.apache.poi.ss.usermodel.IndexedColors.LIGHT_TURQUOISE.getIndex()); // O el color suave que prefieras
+        styleRowPar.setFillPattern(org.apache.poi.ss.usermodel.FillPatternType.SOLID_FOREGROUND);
+
+        org.apache.poi.ss.usermodel.CellStyle styleRowImpar = workbook.createCellStyle();
+        styleRowImpar.setFillForegroundColor(org.apache.poi.ss.usermodel.IndexedColors.WHITE.getIndex());
+        styleRowImpar.setFillPattern(org.apache.poi.ss.usermodel.FillPatternType.SOLID_FOREGROUND);
+
+        int rowNum = 0;
+        org.apache.poi.ss.usermodel.Row headerRow = hoja.createRow(rowNum++);
+        String[] columns = {
+                "Codigo", "Número de Serie", "Precio", "Descuento",
+                "Precio Final", "Costes Envío", "Costes Almacenaje", "Beneficio"
+        };
+
+        for (int i = 0; i < columns.length; i++) {
+            org.apache.poi.ss.usermodel.Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+            cell.setCellStyle(styleHeader);
+        }
+
+        int rowIndex = 0;
+        for (ProductoEntity entidad : listaProductos) {
+            org.apache.poi.ss.usermodel.Row row = hoja.createRow(rowNum++);
+
+            org.apache.poi.ss.usermodel.CellStyle currentStyle = (rowIndex % 2 == 0) ? styleRowPar : styleRowImpar;
+
+            org.apache.poi.ss.usermodel.Cell cell0 = row.createCell(0); cell0.setCellValue(entidad.getProducto().getCodigo()); cell0.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell1 = row.createCell(1); cell1.setCellValue(entidad.getProducto().getNumeroSerie()); cell1.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell2 = row.createCell(2); cell2.setCellValue(entidad.getProducto().getPrecio().doubleValue() + " €"); cell2.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell3 = row.createCell(3); cell3.setCellValue(entidad.getProducto().getDescuento().doubleValue() + "%"); cell3.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell4 = row.createCell(4); cell4.setCellValue(entidad.getPrecioFinal().doubleValue() + " €"); cell4.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell5 = row.createCell(5); cell5.setCellValue(entidad.getProducto().getCostes().getCostesEnvio().doubleValue() + " €"); cell5.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell6 = row.createCell(6); cell6.setCellValue(entidad.getProducto().getCostes().getCostesAlmacenaje().doubleValue() + " €"); cell6.setCellStyle(currentStyle);
+            org.apache.poi.ss.usermodel.Cell cell7 = row.createCell(7); cell7.setCellValue(entidad.getProfit().doubleValue() + " €"); cell7.setCellStyle(currentStyle);
+
+            rowIndex++;
+        }
+
+        for (int i = 0; i < columns.length; i++) {
+            hoja.autoSizeColumn(i);
+        }
+
+        String rutaExcel = path + "export_junio2026.xlsx";
+
+        try (java.io.FileOutputStream fileOut = new java.io.FileOutputStream(rutaExcel)) {
+            workbook.write(fileOut);
+        }
+        workbook.close();
+
     }
 }
